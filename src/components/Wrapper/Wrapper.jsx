@@ -7,7 +7,6 @@ export default function Wrapper() {
   return (
     <Container>
       <Game />
-      <Controls />
     </Container>
   );
 }

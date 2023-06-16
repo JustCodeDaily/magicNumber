@@ -10,6 +10,13 @@ export const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  &.red-button {
+    background-color: #ff0000;
+  }
+
+  &.green-button {
+    background-color: #00ff00;
+  }
 `;
 
 export const ControlSection = styled.div`
@@ -24,4 +31,9 @@ export const KeypadWrapper = styled.div`
   grid-template-rows: repeat(4, 1fr);
   grid-column-gap: 3px;
   grid-row-gap: 3px;
+`;
+
+export const InputNumber = styled.div`
+  margin-bottom: 20px;
+  font-size: 24px;
 `;
