@@ -13,9 +13,8 @@
   display: flex;
   height: 100vh;
 }
-
+/* 
 .wrapper > div {
   display: grid;
   place-content: center;
-  width: 50vw;
-}
+} */
