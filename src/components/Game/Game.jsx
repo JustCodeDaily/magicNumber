@@ -1,13 +1,16 @@
 import React from "react";
+import { Wrapper, GameSection } from "./Game.styles";
 
 function Game() {
   return (
-    <>
-      <div className="gameInfo">1</div>
-      <div className="magicSquare">2</div>
-      <div className="helpText">3</div>
-      <div className="toggle">5</div>
-    </>
+    <GameSection>
+      <div className="gameInfo">
+        Game Information - Ready / Start / End / Lost
+      </div>
+      <div className="magicSquare">The Magic Squure</div>
+      <div className="helpText">Great or Less</div>
+      <div className="toggle">Toggle Button</div>
+    </GameSection>
   );
 }
 
