@@ -1,6 +1,6 @@
 import React from "react";
-import Wrapper from "./components/Wrapper/Wrapper";
+import Game from "./components/Game";
 
 export default function App() {
-  return <Wrapper />;
+  return <Game />;
 }
