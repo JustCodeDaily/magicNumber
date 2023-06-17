@@ -53,6 +53,7 @@ export const KeypadButton = styled.button`
 
 export const CancelButton = styled(KeypadButton)`
   background-color: red;
+  border-bottom-left-radius: 16px;
   &:hover {
     background-color: darkred;
   }
@@ -60,14 +61,20 @@ export const CancelButton = styled(KeypadButton)`
 
 export const CheckmarkButton = styled(KeypadButton)`
   background-color: green;
+  border-bottom-right-radius: 16px;
   &:hover {
     background-color: darkgreen;
   }
 `;
 
 export const GuessedNumber = styled.div`
+  display: grid;
+  place-items: center;
   font-size: 18px;
+  margin-bottom: 12px;
 `;
+
+export const GreetingMessage = styled(GuessedNumber)``;
 
 export const Message = styled.div`
   font-size: 18px;

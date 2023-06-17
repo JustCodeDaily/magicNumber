@@ -20,12 +20,14 @@ const gameVerbiage = [
   "You have a Magic Number, Guess Me!",
   "Bulls Eye, You have done it!",
   "Ooops, Game Over. Better luck next time",
+  "Maybe, Give another try",
 ];
 
 function Game() {
   const [guess, setGuess] = useState("");
   const [rand, setRand] = useState(null);
   const [gameState, setGameState] = useState(0);
+  const [remainingGuesses, setRemainingGuesses] = useState(5);
 
   function handleNumber(key) {
     if (guess.length >= 2) {
@@ -47,7 +49,13 @@ function Game() {
     if (parseInt(guess) === rand) {
       setGameState(1);
     } else {
-      setGameState(2);
+      if (remainingGuesses > 1) {
+        setRemainingGuesses((prevGuesses) => prevGuesses - 1);
+        setGuess(""); // Clear the guess for the next attempt
+        setGameState(3); // "Give one more shot" state
+      } else {
+        setGameState(2); // Game over state
+      }
     }
   }
 
@@ -63,14 +71,12 @@ function Game() {
   return (
     <Styled.Container>
       <Styled.GameWrapper>
-        {
-          gameState === 0
-            ? gameVerbiage[0] // "You have a Magic Number, Guess Me!"
-            : gameState === 1
-            ? gameVerbiage[1] // "Bulls Eye, You have done it!"
-            : gameVerbiage[2] // "Ooops, Game Over. Better luck next time"
-        }
-
+        <Styled.GreetingMessage>
+          {gameState === 0 && gameVerbiage[0]}
+          {gameState === 1 && gameVerbiage[1]}
+          {gameState === 2 && gameVerbiage[2]}
+          {gameState === 3 && gameVerbiage[3]}
+        </Styled.GreetingMessage>
         <Styled.GameWrapper>
           {rand ? `${rand}` : "Generating random number..."}
         </Styled.GameWrapper>
@@ -85,6 +91,9 @@ function Game() {
                 <Styled.CancelButton
                   key={key}
                   onClick={() => handleCancel(key)}
+                  disabled={
+                    gameState === 1 || gameState === 2 || guess.length == 0
+                  }
                 >
                   {keypads[key]}
                 </Styled.CancelButton>
@@ -94,6 +103,9 @@ function Game() {
                 <Styled.CheckmarkButton
                   key={key}
                   onClick={() => handleSubmit(key)}
+                  disabled={
+                    gameState === 1 || gameState === 2 || guess.length < 2
+                  }
                 >
                   {keypads[key]}
                 </Styled.CheckmarkButton>
