@@ -5,6 +5,7 @@ const gameVerbiage = [
   "Bulls Eye, You have done it!",
   "Ooops, Game Over. Better luck next time",
   "Maybe, Give another try",
+  "Seems, You have tried that before",
 ];
 
 function Game() {
@@ -13,6 +14,8 @@ function Game() {
   const [gameState, setGameState] = useState(0);
   const [remainingGuesses, setRemainingGuesses] = useState(5);
   const [restrat, setRestart] = useState(false);
+  const [shakeAnimation, setShakeAnimation] = useState(false);
+  const [previousGuesses, setPreviousGuesses] = useState([]);
 
   const keypadButtons = [
     { label: "1", value: "1" },
@@ -43,6 +46,7 @@ function Game() {
     }
     const newNumber = guess + key;
     setGuess(newNumber);
+    setShakeAnimation(false);
   }
 
   function handleCancel() {
@@ -59,9 +63,16 @@ function Game() {
       setRestart(true);
     } else {
       if (remainingGuesses > 1) {
-        setRemainingGuesses((prevGuesses) => prevGuesses - 1);
-        setGuess(""); // Clear the guess for the next attempt
-        setGameState(3); // "Give one more shot" state
+        if (previousGuesses.includes(guess)) {
+          setGuess("");
+          setGameState(4); // Same guess state
+        } else {
+          setRemainingGuesses((prevGuesses) => prevGuesses - 1);
+          setGuess(""); // Clear the guess for the next attempt
+          setGameState(3); // "Give one more shot" state
+          setShakeAnimation(true);
+          setPreviousGuesses((prevGuesses) => [...prevGuesses, guess]);
+        }
       } else {
         setGameState(2); // Game over state
         setRestart(true);
@@ -73,20 +84,30 @@ function Game() {
     generateRandomNumber();
   }, []);
 
+  useEffect(() => {
+    if (shakeAnimation) {
+      const timeout = setTimeout(() => {
+        setShakeAnimation(false);
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [shakeAnimation]);
+
   function generateRandomNumber() {
     const randomNumber = Math.floor(Math.random() * 90) + 10;
     setRand(randomNumber);
-    // alert(randomNumber);
+    alert(randomNumber);
   }
 
   return (
     <Styled.Container>
       <Styled.GameWrapper>
-        <Styled.GreetingMessage>
+        <Styled.GreetingMessage shake={shakeAnimation ? "true" : undefined}>
           {gameState === 0 && gameVerbiage[0]}
           {gameState === 1 && gameVerbiage[1]}
           {gameState === 2 && gameVerbiage[2]}
           {gameState === 3 && gameVerbiage[3]}
+          {gameState === 4 && gameVerbiage[4]}
         </Styled.GreetingMessage>
         {restrat && (
           <Styled.RestartGame onClick={handleRestart}>
@@ -135,6 +156,12 @@ function Game() {
             }
           })}
         </Styled.KeypadWrapper>
+
+        <Styled.ChancesWrapper>
+          {Array.from({ length: remainingGuesses }, (_, index) => (
+            <Styled.Heart key={index}>❤️ </Styled.Heart>
+          ))}
+        </Styled.ChancesWrapper>
       </Styled.ControlWrapper>
     </Styled.Container>
   );
