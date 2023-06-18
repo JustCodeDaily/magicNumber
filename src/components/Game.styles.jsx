@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 export const Container = styled.div`
   min-width: 80vw;
@@ -10,13 +10,23 @@ export const Container = styled.div`
 export const GameWrapper = styled.div`
   flex: 1;
   display: grid;
-  place-content: center;
+  place-content: center end;
+  margin-right: 5vh;
+`;
+
+export const ChancesWrapper = styled.div`
+  display: flex;
+`;
+
+export const Heart = styled.div`
+  font-size: 24px;
 `;
 
 export const ControlWrapper = styled.div`
   flex: 1;
   display: grid;
-  place-content: center;
+  place-content: center start;
+  margin-left: 5vh;
 `;
 
 export const KeypadWrapper = styled.div`
@@ -75,11 +85,25 @@ export const GuessedNumber = styled.div`
   margin-bottom: 12px;
 `;
 
+const shakeAnimation = keyframes`
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+`;
+
 export const GreetingMessage = styled(GuessedNumber)`
   height: 400px;
   width: 400px;
   background: teal;
   color: white;
+
+  ${({ shake }) =>
+    shake &&
+    css`
+      animation: ${shakeAnimation} 0.5s ease-in-out;
+    `}
 `;
 
 export const Message = styled.div`
