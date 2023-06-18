@@ -96,7 +96,6 @@ function Game() {
   function generateRandomNumber() {
     const randomNumber = Math.floor(Math.random() * 90) + 10;
     setRand(randomNumber);
-    alert(randomNumber);
   }
 
   return (
