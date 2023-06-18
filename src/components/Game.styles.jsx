@@ -12,6 +12,7 @@ export const GameWrapper = styled.div`
   display: grid;
   place-content: center;
 `;
+
 export const ControlWrapper = styled.div`
   flex: 1;
   display: grid;
@@ -53,6 +54,7 @@ export const KeypadButton = styled.button`
 
 export const CancelButton = styled(KeypadButton)`
   background-color: red;
+  border-bottom-left-radius: 16px;
   &:hover {
     background-color: darkred;
   }
@@ -60,15 +62,38 @@ export const CancelButton = styled(KeypadButton)`
 
 export const CheckmarkButton = styled(KeypadButton)`
   background-color: green;
+  border-bottom-right-radius: 16px;
   &:hover {
     background-color: darkgreen;
   }
 `;
 
 export const GuessedNumber = styled.div`
+  display: grid;
+  place-items: center;
   font-size: 18px;
+  margin-bottom: 12px;
+`;
+
+export const GreetingMessage = styled(GuessedNumber)`
+  height: 400px;
+  width: 400px;
+  background: teal;
+  color: white;
 `;
 
 export const Message = styled.div`
   font-size: 18px;
+`;
+
+export const RestartGame = styled.button`
+  margin-top: 18px;
+  padding: 10px 35px;
+  height: 80px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
 `;
