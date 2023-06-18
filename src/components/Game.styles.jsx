@@ -12,6 +12,7 @@ export const GameWrapper = styled.div`
   display: grid;
   place-content: center;
 `;
+
 export const ControlWrapper = styled.div`
   flex: 1;
   display: grid;
@@ -74,8 +75,25 @@ export const GuessedNumber = styled.div`
   margin-bottom: 12px;
 `;
 
-export const GreetingMessage = styled(GuessedNumber)``;
+export const GreetingMessage = styled(GuessedNumber)`
+  height: 400px;
+  width: 400px;
+  background: teal;
+  color: white;
+`;
 
 export const Message = styled.div`
   font-size: 18px;
+`;
+
+export const RestartGame = styled.button`
+  margin-top: 18px;
+  padding: 10px 35px;
+  height: 80px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
 `;

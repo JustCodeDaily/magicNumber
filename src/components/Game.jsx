@@ -1,21 +1,5 @@
 import React, { useState, useEffect } from "react";
 import * as Styled from "./Game.styles";
-const keypadOrder = [1, 2, 3, 4, 5, 6, 7, 8, 9, "cancel", 0, "checkmark"];
-const keypads = {
-  1: "1",
-  2: "2",
-  3: "3",
-  4: "4",
-  5: "5",
-  6: "6",
-  7: "7",
-  8: "8",
-  9: "9",
-  cancel: "X",
-  0: "0",
-  checkmark: "✓",
-};
-
 const gameVerbiage = [
   "You have a Magic Number, Guess Me!",
   "Bulls Eye, You have done it!",
@@ -28,6 +12,30 @@ function Game() {
   const [rand, setRand] = useState(null);
   const [gameState, setGameState] = useState(0);
   const [remainingGuesses, setRemainingGuesses] = useState(5);
+  const [restrat, setRestart] = useState(false);
+
+  const keypadButtons = [
+    { label: "1", value: "1" },
+    { label: "2", value: "2" },
+    { label: "3", value: "3" },
+    { label: "4", value: "4" },
+    { label: "5", value: "5" },
+    { label: "6", value: "6" },
+    { label: "7", value: "7" },
+    { label: "8", value: "8" },
+    { label: "9", value: "9" },
+    { label: "X", value: "X" },
+    { label: "0", value: "0" },
+    { label: "✓", value: "✓" },
+  ];
+
+  function handleRestart() {
+    setGuess("");
+    setGameState(0);
+    setRemainingGuesses(5);
+    setRestart(false);
+    generateRandomNumber();
+  }
 
   function handleNumber(key) {
     if (guess.length >= 2) {
@@ -48,6 +56,7 @@ function Game() {
     }
     if (parseInt(guess) === rand) {
       setGameState(1);
+      setRestart(true);
     } else {
       if (remainingGuesses > 1) {
         setRemainingGuesses((prevGuesses) => prevGuesses - 1);
@@ -55,6 +64,7 @@ function Game() {
         setGameState(3); // "Give one more shot" state
       } else {
         setGameState(2); // Game over state
+        setRestart(true);
       }
     }
   }
@@ -66,6 +76,7 @@ function Game() {
   function generateRandomNumber() {
     const randomNumber = Math.floor(Math.random() * 90) + 10;
     setRand(randomNumber);
+    // alert(randomNumber);
   }
 
   return (
@@ -77,46 +88,48 @@ function Game() {
           {gameState === 2 && gameVerbiage[2]}
           {gameState === 3 && gameVerbiage[3]}
         </Styled.GreetingMessage>
-        <Styled.GameWrapper>
-          {rand ? `${rand}` : "Generating random number..."}
-        </Styled.GameWrapper>
+        {restrat && (
+          <Styled.RestartGame onClick={handleRestart}>
+            Restart Game
+          </Styled.RestartGame>
+        )}
       </Styled.GameWrapper>
 
       <Styled.ControlWrapper>
         <Styled.GuessedNumber>Your Guess is: {guess} </Styled.GuessedNumber>
         <Styled.KeypadWrapper>
-          {keypadOrder.map((key) => {
-            if (key === "cancel") {
-              return (
-                <Styled.CancelButton
-                  key={key}
-                  onClick={() => handleCancel(key)}
-                  disabled={
-                    gameState === 1 || gameState === 2 || guess.length == 0
-                  }
-                >
-                  {keypads[key]}
-                </Styled.CancelButton>
-              );
-            } else if (key === "checkmark") {
+          {keypadButtons.map((button) => {
+            if (button.label === "✓") {
               return (
                 <Styled.CheckmarkButton
-                  key={key}
-                  onClick={() => handleSubmit(key)}
+                  key={button.label}
+                  onClick={() => handleSubmit(button.value)}
                   disabled={
                     gameState === 1 || gameState === 2 || guess.length < 2
                   }
                 >
-                  {keypads[key]}
+                  {button.label}
                 </Styled.CheckmarkButton>
+              );
+            } else if (button.label === "X") {
+              return (
+                <Styled.CancelButton
+                  key={button.label}
+                  onClick={() => handleCancel(button.value)}
+                  disabled={
+                    gameState === 1 || gameState === 2 || guess.length === 0
+                  }
+                >
+                  {button.label}
+                </Styled.CancelButton>
               );
             } else {
               return (
                 <Styled.KeypadButton
-                  key={key}
-                  onClick={() => handleNumber(key)}
+                  key={button.label}
+                  onClick={() => handleNumber(button.value)}
                 >
-                  {keypads[key]}
+                  {button.label}
                 </Styled.KeypadButton>
               );
             }
